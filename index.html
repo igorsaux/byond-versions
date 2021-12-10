@@ -7,19 +7,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Byond Versions</title>
-  <script type="module" crossorigin src="/byond-versions/assets/index.944a70d9.js"></script>
+  <script type="module" crossorigin src="/byond-versions/assets/index.e47a3b17.js"></script>
   <link rel="modulepreload" href="/byond-versions/assets/vendor.3d6e76e7.js">
-  <link rel="stylesheet" href="/byond-versions/assets/index.89a44a51.css">
+  <link rel="stylesheet" href="/byond-versions/assets/index.05d0c518.css">
 </head>
 
 <body>
-    <div id="Title">
+
+    <header id="Title">
         <h1>Версии BYOND</h1>
         <p id="LastUpdatedDate">Загрузка...</p>
+    </header>
+
+    <div id="Content">
+        <section>
+            <h2>Текущая статистика</h2>
+            <div id="pie-chart"></div>
+        </section>
+
+        <section>
+            <h2>Ежедневная история</h2>
+            <div id="lines-chart"></div>
+        </section>
     </div>
 
-    <div id="pie-chart"></div>
-    <div id="lines-chart"></div>
+    <footer>
+        <div>
+            Статистика собирается с <a target="_blank" href="http://www.byond.com/games/Exadv1/SpaceStation13">BYOND
+                Hub</a>
+        </div>
+
+        <div>
+            2021 • Игорь Спичкин • <a target="_blank" href="https://github.com/igorsaux/byond-versions">GitHub</a>
+        </div>
+    </footer>
+
     
 </body>
 
