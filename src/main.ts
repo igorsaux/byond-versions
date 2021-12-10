@@ -13,7 +13,7 @@ type NormalizedData = {
 }
 
 const dataUri =
-  'https://github-cdn.vercel.app/igorsaux/byond-versions/scrapper/data.json'
+  'https://github-cdn.vercel.app/igorsaux/byond-versions/master/data.json'
 
 function normalizeData(data: Data) {
   const normalized: NormalizedData = {}
