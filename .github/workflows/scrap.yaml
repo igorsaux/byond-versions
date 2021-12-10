@@ -1,0 +1,21 @@
+name: Scrapping Data
+on:
+  schedule:
+    - cron: '0 1 * * *'
+
+jobs:
+  Main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run script
+        shell: pwsh
+        run: ./bin/deno run --allow-all ./src/main.ts
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v7.5.0
+        with:
+          default_author: github_actions
