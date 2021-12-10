@@ -53,6 +53,10 @@ function drawPieChart(data: NormalizedData) {
     labels,
     chart: {
       type: 'pie',
+      fontFamily: 'Fira Sans',
+    },
+    theme: {
+      mode: 'dark',
     },
   })
 
@@ -117,6 +121,7 @@ function drawAreaChart(data: NormalizedData) {
         autoSelected: 'pan',
         show: false,
       },
+      fontFamily: 'Fira Sans',
     },
     fill: {
       type: 'gradient',
@@ -127,6 +132,9 @@ function drawAreaChart(data: NormalizedData) {
         opacityTo: 0,
         stops: [0, 90, 100],
       },
+    },
+    theme: {
+      mode: 'dark',
     },
     xaxis,
   })
