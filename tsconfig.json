@@ -13,7 +13,6 @@
     "noImplicitOverride": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "importHelpers": true
+    "noImplicitReturns": true
   }
 }

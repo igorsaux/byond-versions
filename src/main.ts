@@ -66,17 +66,21 @@ function drawAreaChart(data: NormalizedData) {
   } = {}
   const dates = Object.keys(data)
 
+  let iteration = 0
+
   for (const i of dates) {
     const date = parseInt(i)
     const versies = data[date]
 
     for (const version in versies) {
       if (!versionsHistory[version]) {
-        versionsHistory[version] = [versies[version]]
-      } else {
-        versionsHistory[version].push(versies[version])
+        versionsHistory[version] = Array(iteration).fill(0)
       }
+
+      versionsHistory[version].push(versies[version])
     }
+
+    iteration++
   }
 
   const series: {
