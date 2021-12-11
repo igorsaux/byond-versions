@@ -1,45 +1,23 @@
 import ApexCharts from 'apexcharts'
 
 type Data = {
-  [date: number]: {
-    versions: number[]
+  [date: string]: {
+    versions: VersionsList
   }
 }
 
-type NormalizedData = {
-  [date: number]: {
-    [version: number]: number
-  }
+type VersionsList = {
+  [version: string]: number
 }
 
 const dataUri =
   'https://github-cdn.vercel.app/igorsaux/byond-versions/master/data.json'
 
-function normalizeData(data: Data) {
-  const normalized: NormalizedData = {}
-
-  for (const key of Object.keys(data)) {
-    const date = parseInt(key)
-    const dataSection = data[date]
-    const versions: {
-      [version: number]: number
-    } = {}
-
-    dataSection.versions.forEach(v => {
-      versions[v] = versions[v] ? versions[v] + 1 : 1
-    })
-
-    normalized[date] = versions
-  }
-
-  return normalized
-}
-
-function drawPieChart(data: NormalizedData) {
+function drawPieChart(data: Data) {
   const el = document.getElementById('pie-chart')!
   const dates = Object.keys(data)
   const lastDate = parseInt(dates[dates.length - 1])
-  const lastData = data[lastDate]
+  const lastData = data[lastDate].versions
   const series = Object.values(lastData)
   const labels = Object.keys(lastData)
 
@@ -63,10 +41,10 @@ function drawPieChart(data: NormalizedData) {
   chart.render()
 }
 
-function drawAreaChart(data: NormalizedData) {
+function drawAreaChart(data: Data) {
   const el = document.getElementById('lines-chart')
   const versionsHistory: {
-    [version: number]: number[]
+    [version: string]: number[]
   } = {}
   const dates = Object.keys(data)
 
@@ -74,7 +52,7 @@ function drawAreaChart(data: NormalizedData) {
 
   for (const i of dates) {
     const date = parseInt(i)
-    const versies = data[date]
+    const versies = data[date].versions
 
     for (const version in versies) {
       if (!versionsHistory[version]) {
@@ -145,10 +123,9 @@ function drawAreaChart(data: NormalizedData) {
 async function main() {
   const request = await fetch(dataUri)
   const data = (await request.json()) as Data
-  const normalized = normalizeData(data)
 
-  drawPieChart(normalized)
-  drawAreaChart(normalized)
+  drawPieChart(data)
+  drawAreaChart(data)
 }
 
 main()
