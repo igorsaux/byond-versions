@@ -1,15 +1,19 @@
 type Data = {
-  [data: number]: {
-    versions: number[]
+  [date: string]: {
+    versions: VersionsList
   }
 }
 
-async function parseVersions(): Promise<number[]> {
+type VersionsList = {
+  [version: string]: number
+}
+
+async function parseVersions(): Promise<VersionsList> {
   const request = await fetch(
     'http://www.byond.com/games/Exadv1/SpaceStation13?format=text'
   )
   const result = await request.text()
-  const versions = []
+  const versions: VersionsList = {}
   const regex = /\tserver_version = (?<version>\d+)/g
 
   const matches = result.matchAll(regex)
@@ -21,7 +25,13 @@ async function parseVersions(): Promise<number[]> {
       continue
     }
 
-    versions.push(parseInt(groups['version']))
+    const version = groups['version']
+
+    if (!versions[version]) {
+      versions[version] = 1
+    } else {
+      versions[version] += 1
+    }
   }
 
   return versions
