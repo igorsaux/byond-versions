@@ -55,4 +55,6 @@ oldData[now] = {
   versions
 }
 
+console.log('Новые данные:', JSON.stringify(oldData[now], null, 2))
+
 await saveData(oldData)
