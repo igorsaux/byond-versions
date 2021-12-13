@@ -11,8 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
       - name: Run script
-        shell: pwsh
-        run: ./bin/deno run --allow-all ./src/main.ts
+        run: chmod +x ./bin/deno && ./bin/deno run --allow-all ./src/main.ts
       - name: Add & Commit
         uses: EndBug/add-and-commit@v7.5.0
         with:
