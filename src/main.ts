@@ -32,6 +32,7 @@ function drawPieChart(data: Data) {
     chart: {
       type: 'pie',
       fontFamily: 'Fira Sans',
+      background: '#00000000',
     },
     theme: {
       mode: 'dark',
@@ -70,12 +71,6 @@ function drawAreaChart(data: Data) {
     data: number[]
   }[] = []
 
-  const xaxis: {
-    categories: string[]
-  } = {
-    categories: [],
-  }
-
   for (const key in versionsHistory) {
     const history = versionsHistory[key]
 
@@ -85,21 +80,29 @@ function drawAreaChart(data: Data) {
     })
   }
 
-  xaxis.categories = dates.map(d => new Date(parseInt(d)).toLocaleDateString())
+  const xaxis = {
+    categories: dates.map(d => parseInt(d)),
+    type: 'datetime',
+    labels: {
+      formatter: (_value: string, timestamp: number) =>
+        new Date(timestamp).toLocaleDateString(undefined, {
+          day: '2-digit',
+          weekday: 'short',
+          month: 'short',
+        }),
+    },
+  }
 
   const chart = new ApexCharts(el, {
     series,
     chart: {
       type: 'area',
       height: 300,
-      zoom: {
-        enabled: false,
-      },
+      fontFamily: 'Fira Sans',
       toolbar: {
         autoSelected: 'pan',
-        show: false,
       },
-      fontFamily: 'Fira Sans',
+      background: '#00000000',
     },
     fill: {
       type: 'gradient',
