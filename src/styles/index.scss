@@ -9,7 +9,6 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background: #242424;
 }
 
 body {
@@ -21,6 +20,8 @@ body {
   justify-content: flex-start;
   justify-content: space-between;
   gap: 2rem;
+
+  background-color: #0e111f;
 }
 
 #Content {
@@ -51,12 +52,18 @@ section {
   gap: 0.5rem;
 
   #pie-chart {
-    width: 100%;
-    max-width: 500px;
+    min-width: 320px;
+
+    @media screen and (min-width: 700px) {
+      min-width: 700px;
+    }
+
+    min-height: 400px;
   }
 
   #lines-chart {
-    width: 90%;
+    width: 100%;
+    min-height: 400px;
   }
 }
 

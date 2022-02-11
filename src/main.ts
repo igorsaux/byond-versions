@@ -1,4 +1,4 @@
-import ApexCharts from 'apexcharts'
+import * as echarts from 'echarts'
 
 type Data = {
   [date: string]: {
@@ -18,32 +18,48 @@ function drawPieChart(data: Data) {
   const dates = Object.keys(data)
   const lastDate = parseInt(dates[dates.length - 1])
   const lastData = data[lastDate].versions
-  const series = Object.values(lastData)
-  const labels = Object.keys(lastData)
+  const resultData = []
+
+  for (const key in lastData) {
+    resultData.push({
+      name: key,
+      value: lastData[key],
+    })
+  }
 
   const lastUdateDate = document.getElementById('LastUpdatedDate')!
   const date = new Date(lastDate)
 
   lastUdateDate.innerText = `Обновлено: ${date.toLocaleString()}`
 
-  const chart = new ApexCharts(el, {
-    series,
-    labels,
-    chart: {
-      type: 'pie',
+  const chart = echarts.init(el, 'dark')
+  chart.setOption({
+    textStyle: {
       fontFamily: 'Fira Sans',
-      background: '#00000000',
     },
-    theme: {
-      mode: 'dark',
+    backgroundColor: '',
+    tooltip: {
+      trigger: 'item',
     },
+    legend: {},
+    layout: {
+      padding: 0,
+      autoPadding: false,
+    },
+    series: [
+      {
+        name: 'Версия серверов',
+        type: 'pie',
+        radius: ['40%', '70%'],
+        data: resultData,
+      },
+    ],
   })
-
-  chart.render()
+  window.addEventListener('resize', () => chart.resize())
 }
 
 function drawAreaChart(data: Data) {
-  const el = document.getElementById('lines-chart')
+  const el = document.getElementById('lines-chart')!
   const versionsHistory: {
     [version: string]: number[]
   } = {}
@@ -66,61 +82,75 @@ function drawAreaChart(data: Data) {
     iteration++
   }
 
-  const series: {
-    name: string
-    data: number[]
-  }[] = []
+  const series = []
 
   for (const key in versionsHistory) {
     const history = versionsHistory[key]
 
     series.push({
       name: key,
+      type: 'line',
+      stack: 'Total',
+      areaStyle: {},
+      emphasis: {
+        focus: 'series',
+      },
+      sampling: 'lttb',
+      smooth: true,
       data: history,
     })
   }
 
-  const xaxis = {
-    categories: dates.map(d => parseInt(d)),
-    type: 'datetime',
-    labels: {
-      formatter: (_value: string, timestamp: number) =>
-        new Date(timestamp).toLocaleDateString(undefined, {
-          day: '2-digit',
-          weekday: 'short',
-          month: 'short',
-        }),
-    },
-  }
+  const xaxis = dates.map(d =>
+    new Date(parseInt(d)).toLocaleDateString(undefined, {
+      day: '2-digit',
+      weekday: 'short',
+      month: 'short',
+    })
+  )
 
-  const chart = new ApexCharts(el, {
-    series,
-    chart: {
-      type: 'area',
-      height: 300,
+  const chart = echarts.init(el, 'dark')
+  chart.setOption({
+    textStyle: {
       fontFamily: 'Fira Sans',
-      toolbar: {
-        autoSelected: 'pan',
+    },
+    backgroundColor: '',
+    legend: {
+      top: '30px',
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        label: {
+          backgroundColor: '#6a7985',
+        },
       },
-      background: '#00000000',
     },
-    fill: {
-      type: 'gradient',
-      gradient: {
-        shadeIntensity: 1,
-        inverseColors: false,
-        opacityFrom: 0.5,
-        opacityTo: 0,
-        stops: [0, 90, 100],
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: false,
+        data: xaxis,
       },
-    },
-    theme: {
-      mode: 'dark',
-    },
-    xaxis,
+    ],
+    yAxis: [
+      {
+        type: 'value',
+      },
+    ],
+    dataZoom: [
+      {
+        type: 'inside',
+        start: 0,
+      },
+      {
+        start: 0,
+      },
+    ],
+    series: series,
   })
-
-  chart.render()
+  window.addEventListener('resize', () => chart.resize())
 }
 
 async function main() {
