@@ -121,9 +121,11 @@ function drawAreaChart(data: Data) {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
-        type: 'cross',
         label: {
           backgroundColor: '#6a7985',
+        },
+        lineStyle: {
+          color: '#ffffff',
         },
       },
     },
