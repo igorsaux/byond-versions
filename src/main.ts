@@ -35,7 +35,7 @@ function drawPieChart(data: Data) {
   const chart = echarts.init(el, 'dark')
   chart.setOption({
     textStyle: {
-      fontFamily: 'Fira Sans',
+      fontFamily: 'PT Sans',
     },
     backgroundColor: '',
     tooltip: {
@@ -112,7 +112,7 @@ function drawAreaChart(data: Data) {
   const chart = echarts.init(el, 'dark')
   chart.setOption({
     textStyle: {
-      fontFamily: 'Fira Sans',
+      fontFamily: 'PT Sans',
     },
     backgroundColor: '',
     legend: {
